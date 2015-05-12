@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<input id="dump1" style="width: 300px"><br/>
+<textarea id="dump2" style="width: 300px; height: 500px;"></textarea>
+<script src="../minified/width-watcher.js"></script>
+<script>
+    var bp = [320, 480, 540, 640, 767, 768, 980, 1200];
+    var dump1 = document.getElementById('dump1');
+    var dump2 = document.getElementById('dump2');
+    dump1.value = dump2.value = '';
+
+    var watcher = WidthWatcher();
+
+    var listeners = {
+        dumpMedia: function (mq) {
+            dump1.value = mq.media;
+        },
+        dumpIncreasingValue: {
+            fn: function (mq) {
+                dump2.value = dump2.value + "Decrease: " + mq.getValue() + "\n";
+            },
+            direction: 'decrease'
+        },
+        dumpDecreasingValue: {
+            fn: function (mq) {
+                dump2.value = dump2.value + "Increase: " + mq.getValue() + "\n";
+            },
+            direction: 'increase'
+        }
+    };
+
+    watcher.add(bp);
+    watcher.addListener(listeners.dumpMedia);
+    watcher.addListener(listeners.dumpIncreasingValue);
+    watcher.addListener(listeners.dumpDecreasingValue);
+</script>
+</body>
+</html>
